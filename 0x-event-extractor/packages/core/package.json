@@ -1,0 +1,25 @@
+{
+  "name": "@0x-event-extractor/core",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "dependencies": {
+    "@0x-event-extractor/fill-extractor-v1": "^1.0.0",
+    "@0x-event-extractor/fill-extractor-v2": "^1.0.0",
+    "@0x-event-extractor/fill-extractor-v3": "^1.0.0",
+    "@0x-event-extractor/limit-order-filled-extractor": "^1.0.0",
+    "@0x-event-extractor/liquidity-provider-swap-extractor": "^1.0.0",
+    "@0x-event-extractor/rfq-order-filled-extractor": "^1.0.0",
+    "@0x-event-extractor/shared": "^1.0.0",
+    "@0x-event-extractor/sushiswap-swap-extractor": "^1.0.0",
+    "@0x-event-extractor/transformed-erc20-extractor": "^1.0.0",
+    "@0x-event-extractor/uniswap-v2-swap-extractor": "^1.0.0",
+    "@bugsnag/js": "6.5.2",
+    "bugsnag": "^2.4.3",
+    "delay": "^4.3.0",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.7.3",
+    "pino": "6.0.0",
+    "pino-elasticsearch": "4.4.0",
+    "promise-poller": "^1.9.1"
+  }
+}

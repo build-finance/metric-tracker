@@ -1,0 +1,58 @@
+{
+  "private": true,
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "dev": "nodemon pino . | pino-pretty -t",
+    "start": "node .",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "eslint": "6.8.0",
+    "eslint-config-airbnb-base": "14.0.0",
+    "eslint-config-prettier": "6.10.0",
+    "eslint-plugin-import": "2.20.1",
+    "eslint-plugin-prettier": "3.1.2",
+    "husky": "3.1.0",
+    "jest": "26.4.2",
+    "lint-staged": "9.5.0",
+    "nodemon": "2.0.2",
+    "pino-pretty": "3.6.1",
+    "prettier": "1.19.1"
+  },
+  "dependencies": {
+    "@0x/types": "3.1.0",
+    "@0xproject/utils": "2.0.2",
+    "@0xproject/web3-wrapper": "3.0.3",
+    "@bugsnag/js": "6.4.3",
+    "@bugsnag/plugin-koa": "6.4.1",
+    "@elastic/elasticsearch": "7.5.0",
+    "axios": "0.19.0",
+    "bignumber.js": "9.0.0",
+    "config": "3.2.4",
+    "dotenv-safe": "8.2.0",
+    "ethers": "4.0.47",
+    "koa": "2.11.0",
+    "koa-body": "4.1.1",
+    "koa-combine-routers": "4.0.2",
+    "koa-compress": "3.0.0",
+    "koa-etag": "3.0.0",
+    "koa-helmet": "5.2.0",
+    "koa-ratelimit": "5.0.0",
+    "koa-router": "7.4.0",
+    "lodash": "4.17.15",
+    "memory-cache": "0.2.0",
+    "moment": "2.24.0",
+    "mongoose": "5.8.1",
+    "mongoose-paginate": "5.0.3",
+    "ms": "2.1.2",
+    "pino": "6.0.0",
+    "pino-elasticsearch": "4.4.0",
+    "slugify": "1.4.0"
+  },
+  "engines": {
+    "node": "10.17.0",
+    "npm": "6.x.x"
+  }
+}

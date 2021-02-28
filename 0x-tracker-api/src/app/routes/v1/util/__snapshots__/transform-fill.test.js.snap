@@ -1,0 +1,283 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformFill should transform ERC20 asset 1`] = `
+Object {
+  "amount": "0.275",
+  "bridge": null,
+  "bridgeAddress": undefined,
+  "price": Object {
+    "USD": 137.36999999999998,
+  },
+  "tokenAddress": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+  "tokenId": undefined,
+  "tokenImageUrl": "https://cdn.staticaly.com/gh/TrustWallet/tokens/master/tokens/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png",
+  "tokenSymbol": "WETH",
+  "tokenType": "Wrapped Ether",
+  "traderType": "taker",
+  "type": "erc-20",
+}
+`;
+
+exports[`transformFill should transform ERC721 asset 1`] = `
+Object {
+  "amount": "1",
+  "bridge": null,
+  "bridgeAddress": undefined,
+  "price": Object {
+    "USD": 37.77675,
+  },
+  "tokenAddress": "0xf5b0a3efb8e8e4c201e2a935f110eaaf3ffecb8d",
+  "tokenId": 43381,
+  "tokenImageUrl": "https://cdn.staticaly.com/gh/TrustWallet/tokens/master/tokens/0xf5b0a3efb8e8e4c201e2a935f110eaaf3ffecb8d.png",
+  "tokenSymbol": "AXIE",
+  "tokenType": "Axie",
+  "traderType": "maker",
+  "type": "erc-721",
+}
+`;
+
+exports[`transformFill should transform V1 fill 1`] = `
+Object {
+  "affiliate": null,
+  "apps": Array [],
+  "assets": Array [
+    Object {
+      "amount": "7.1373405",
+      "bridge": null,
+      "bridgeAddress": undefined,
+      "price": Object {
+        "USD": 224.42000000000002,
+      },
+      "tokenAddress": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+      "tokenId": undefined,
+      "tokenImageUrl": "https://cdn.staticaly.com/gh/TrustWallet/tokens/master/tokens/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png",
+      "tokenSymbol": "WETH",
+      "tokenType": "Wrapped Ether",
+      "traderType": "maker",
+      "type": "erc-20",
+    },
+    Object {
+      "amount": "300000",
+      "bridge": null,
+      "bridgeAddress": undefined,
+      "price": Object {
+        "USD": 0.0053392065167000005,
+      },
+      "tokenAddress": "0xd7732e3783b0047aa251928960063f863ad022d8",
+      "tokenId": undefined,
+      "tokenImageUrl": "https://cdn.staticaly.com/gh/TrustWallet/tokens/master/tokens/0xd7732e3783b0047aa251928960063f863ad022d8.png",
+      "tokenSymbol": "BRM",
+      "tokenType": "BrahmaOS",
+      "traderType": "taker",
+      "type": "erc-20",
+    },
+  ],
+  "date": "2018-09-06T10:47:38.000Z",
+  "feeRecipient": "0xe269e891a2ec8585a378882ffa531141205e92e9",
+  "feeRecipientMetadata": Object {
+    "address": "0xe269e891a2ec8585a378882ffa531141205e92e9",
+    "imageUrl": null,
+    "isContract": null,
+    "name": null,
+  },
+  "fees": Array [
+    Object {
+      "amount": Object {
+        "USD": 9.13,
+        "token": "15",
+      },
+      "token": Object {
+        "address": "0xe41d2489571d322189246dafa5ebde1f4699f498",
+        "id": null,
+        "name": "0x Protocol Token",
+        "symbol": "ZRX",
+        "type": "erc-20",
+      },
+      "traderType": "maker",
+    },
+    Object {
+      "amount": Object {
+        "USD": 3.04,
+        "token": "5",
+      },
+      "token": Object {
+        "address": "0xe41d2489571d322189246dafa5ebde1f4699f498",
+        "id": null,
+        "name": "0x Protocol Token",
+        "symbol": "ZRX",
+        "type": "erc-20",
+      },
+      "traderType": "taker",
+    },
+  ],
+  "id": "5b9107e00d05f400042e3494",
+  "maker": Object {
+    "address": "0x8dd688660ec0babd0b8a2f2de3232645f73cc5eb",
+    "imageUrl": null,
+    "isContract": null,
+    "name": null,
+  },
+  "makerAddress": "0x8dd688660ec0babd0b8a2f2de3232645f73cc5eb",
+  "orderHash": "0xd7cbdddb68cfa6216e867227a4cb8ca281e0d82921000b4b977d6038535482f5",
+  "protocolFee": undefined,
+  "protocolVersion": 1,
+  "relayer": null,
+  "sender": null,
+  "senderAddress": undefined,
+  "status": "successful",
+  "taker": Object {
+    "address": "0xe269e891a2ec8585a378882ffa531141205e92e9",
+    "imageUrl": null,
+    "isContract": null,
+    "name": null,
+  },
+  "takerAddress": "0xe269e891a2ec8585a378882ffa531141205e92e9",
+  "transactionFrom": null,
+  "transactionHash": "0x4c69e925be055eec7bc49cc681fd5267d1aca7e1db21f687ab19ab9d75b7447c",
+  "transactionTo": null,
+  "value": Object {
+    "USD": 1601.76195501,
+  },
+}
+`;
+
+exports[`transformFill should transform V1 fill with unrecognised maker asset 1`] = `
+Object {
+  "amount": undefined,
+  "bridge": null,
+  "bridgeAddress": undefined,
+  "price": Object {
+    "USD": 224.42000000000002,
+  },
+  "tokenAddress": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+  "tokenId": undefined,
+  "tokenImageUrl": null,
+  "tokenSymbol": undefined,
+  "tokenType": undefined,
+  "traderType": "maker",
+  "type": null,
+}
+`;
+
+exports[`transformFill should transform V1 fill with unrecognised taker asset 1`] = `
+Object {
+  "amount": undefined,
+  "bridge": null,
+  "bridgeAddress": undefined,
+  "price": Object {
+    "USD": 0.0053392065167000005,
+  },
+  "tokenAddress": "0xd7732e3783b0047aa251928960063f863ad022d8",
+  "tokenId": undefined,
+  "tokenImageUrl": null,
+  "tokenSymbol": undefined,
+  "tokenType": undefined,
+  "traderType": "taker",
+  "type": null,
+}
+`;
+
+exports[`transformFill should transform V2 fill 1`] = `
+Object {
+  "affiliate": null,
+  "apps": Array [],
+  "assets": Array [
+    Object {
+      "amount": "1",
+      "bridge": null,
+      "bridgeAddress": undefined,
+      "price": Object {
+        "USD": 37.77675,
+      },
+      "tokenAddress": "0xf5b0a3efb8e8e4c201e2a935f110eaaf3ffecb8d",
+      "tokenId": 43381,
+      "tokenImageUrl": "https://cdn.staticaly.com/gh/TrustWallet/tokens/master/tokens/0xf5b0a3efb8e8e4c201e2a935f110eaaf3ffecb8d.png",
+      "tokenSymbol": "AXIE",
+      "tokenType": "Axie",
+      "traderType": "maker",
+      "type": "erc-721",
+    },
+    Object {
+      "amount": "0.275",
+      "bridge": null,
+      "bridgeAddress": undefined,
+      "price": Object {
+        "USD": 137.36999999999998,
+      },
+      "tokenAddress": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+      "tokenId": undefined,
+      "tokenImageUrl": "https://cdn.staticaly.com/gh/TrustWallet/tokens/master/tokens/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png",
+      "tokenSymbol": "WETH",
+      "tokenType": "Wrapped Ether",
+      "traderType": "taker",
+      "type": "erc-20",
+    },
+  ],
+  "date": "2018-09-06T10:47:38.000Z",
+  "feeRecipient": "0xe269e891a2ec8585a378882ffa531141205e92e9",
+  "feeRecipientMetadata": Object {
+    "address": "0xe269e891a2ec8585a378882ffa531141205e92e9",
+    "imageUrl": null,
+    "isContract": null,
+    "name": null,
+  },
+  "fees": Array [
+    Object {
+      "amount": Object {
+        "USD": 0.2,
+        "token": "15",
+      },
+      "token": Object {
+        "address": "0xe41d2489571d322189246dafa5ebde1f4699f498",
+        "id": null,
+        "name": "0x Protocol Token",
+        "symbol": "ZRX",
+        "type": "erc-20",
+      },
+      "traderType": "maker",
+    },
+    Object {
+      "amount": Object {
+        "USD": 0.3,
+        "token": "5",
+      },
+      "token": Object {
+        "address": "0xe41d2489571d322189246dafa5ebde1f4699f498",
+        "id": null,
+        "name": "0x Protocol Token",
+        "symbol": "ZRX",
+        "type": "erc-20",
+      },
+      "traderType": "taker",
+    },
+  ],
+  "id": "5b9107e00d05f400042e3494",
+  "maker": Object {
+    "address": "0x8dd688660ec0babd0b8a2f2de3232645f73cc5eb",
+    "imageUrl": null,
+    "isContract": null,
+    "name": null,
+  },
+  "makerAddress": "0x8dd688660ec0babd0b8a2f2de3232645f73cc5eb",
+  "orderHash": "0xd7cbdddb68cfa6216e867227a4cb8ca281e0d82921000b4b977d6038535482f5",
+  "protocolFee": undefined,
+  "protocolVersion": 2,
+  "relayer": null,
+  "sender": null,
+  "senderAddress": undefined,
+  "status": "successful",
+  "taker": Object {
+    "address": "0xe269e891a2ec8585a378882ffa531141205e92e9",
+    "imageUrl": null,
+    "isContract": null,
+    "name": null,
+  },
+  "takerAddress": "0xe269e891a2ec8585a378882ffa531141205e92e9",
+  "transactionFrom": null,
+  "transactionHash": "0x4c69e925be055eec7bc49cc681fd5267d1aca7e1db21f687ab19ab9d75b7447c",
+  "transactionTo": null,
+  "value": Object {
+    "USD": 37.77675,
+  },
+}
+`;

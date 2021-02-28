@@ -1,0 +1,25 @@
+branches:
+  only:
+    - master
+language: node_js
+cache:
+  yarn: true
+  directories:
+    - node_modules
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH="$HOME/.yarn/bin:$PATH"
+install: yarn install
+script:
+  - yarn run lint
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: $AWS_DEPLOY_ACCESS_KEY_ID
+  secret_access_key: $AWS_DEPLOY_SECRET_ACCESS_KEY
+  region: $AWS_DEPLOY_REGION
+  app: $AWS_DEPLOY_APP_NAME
+  env: $AWS_DEPLOY_ENV
+  bucket: $AWS_DEPLOY_BUCKET_NAME
+  edge: true
+  on:
+    branch: master
