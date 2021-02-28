@@ -1,0 +1,71 @@
+version: "3"
+services:
+  api:
+    container_name: api
+    build: ./0x-tracker-api
+    command: sh -c "sleep 30 && npm start"
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    networks:
+      - metric-tracker-network
+  worker:
+    container_name: worker
+    build: ./0x-tracker-worker
+    command: sh -c "sleep 30 && npm start / nodemon"
+    restart: unless-stopped
+    networks:
+      - metric-tracker-network
+  event-extractor:
+    container_name: event-extractor
+    build: ./0x-event-extractor
+    command: sh -c "sleep 30 && yarn start / nodemon"
+    restart: unless-stopped
+    networks:
+      - metric-tracker-network
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+    - "27017:27017"
+    volumes:
+    - mongo-data:/data/db
+    healthcheck:
+      test: test $$(echo "rs.initiate().ok || rs.status().ok" | mongo --quiet) -eq 1
+      interval: 10s
+      start_period: 30s
+    command: ["--replSet", "0x-tracker-events"]
+    restart: unless-stopped
+    networks:
+      - metric-tracker-network
+  redis:
+    container_name: redis
+    image: "redis:alpine"
+    restart: unless-stopped
+    ports:
+    - "6379:6379"
+    volumes:
+    - redis-data:/data
+    networks:
+      - metric-tracker-network
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.0
+    restart: unless-stopped
+    environment:
+    - node.name=es01
+    - discovery.type=single-node
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+    - es-data:/usr/share/elasticsearch/data
+    ports:
+    - "9200:9200"
+    networks:
+      - metric-tracker-network
+networks:
+  metric-tracker-network:
+    driver: bridge
+volumes:
+  redis-data:
+  es-data:
+  mongo-data:
