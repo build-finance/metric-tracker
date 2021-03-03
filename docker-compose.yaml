@@ -48,18 +48,60 @@ services:
     - redis-data:/data
     networks:
       - metric-tracker-network
-  elasticsearch:
-    container_name: elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.0
-    restart: unless-stopped
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+    container_name: es01
     environment:
-    - node.name=es01
-    - discovery.type=single-node
-    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     volumes:
-    - es-data:/usr/share/elasticsearch/data
+      - es-data-01:/usr/share/elasticsearch/data
     ports:
-    - "9200:9200"
+      - 9200:9200
+    networks:
+      - metric-tracker-network
+  es02:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+    container_name: es02
+    environment:
+      - node.name=es02
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es-data-02:/usr/share/elasticsearch/data
+    networks:
+      - metric-tracker-network
+  es03:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+    container_name: es03
+    environment:
+      - node.name=es03
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es-data-03:/usr/share/elasticsearch/data
     networks:
       - metric-tracker-network
 networks:
@@ -67,5 +109,12 @@ networks:
     driver: bridge
 volumes:
   redis-data:
-  es-data:
+    driver: local
+  es-data-01:
+    driver: local
+  es-data-02:
+    driver: local
+  es-data-03:
+    driver: local
   mongo-data:
+    driver: local
