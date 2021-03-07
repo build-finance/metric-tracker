@@ -17,6 +17,7 @@ services:
     restart: on-failure
     networks:
       - internal-network
+      - external-network
   event-extractor:
     container_name: event-extractor
     build: ./0x-event-extractor
@@ -24,6 +25,7 @@ services:
     restart: on-failure
     networks:
       - internal-network
+      - external-network
   mongo:
     container_name: mongo
     image: mongo
