@@ -4,30 +4,29 @@ services:
     container_name: api
     build: ./0x-tracker-api
     command: sh -c "sleep 30 && npm start"
-    restart: unless-stopped
+    restart: on-failure
     ports:
       - "3001:3001"
     networks:
-      - metric-tracker-network
+      - internal-network
+      - external-network
   worker:
     container_name: worker
     build: ./0x-tracker-worker
     command: sh -c "sleep 30 && npm start / nodemon"
-    restart: unless-stopped
+    restart: on-failure
     networks:
-      - metric-tracker-network
+      - internal-network
   event-extractor:
     container_name: event-extractor
     build: ./0x-event-extractor
     command: sh -c "sleep 30 && yarn start / nodemon"
-    restart: unless-stopped
+    restart: on-failure
     networks:
-      - metric-tracker-network
+      - internal-network
   mongo:
     container_name: mongo
     image: mongo
-    ports:
-    - "27017:27017"
     volumes:
     - mongo-data:/data/db
     healthcheck:
@@ -35,27 +34,26 @@ services:
       interval: 10s
       start_period: 30s
     command: ["--replSet", "0x-tracker-events"]
-    restart: unless-stopped
+    restart: on-failure
     networks:
-      - metric-tracker-network
+      - internal-network
   redis:
     container_name: redis
     image: "redis:alpine"
-    restart: unless-stopped
-    ports:
-    - "6379:6379"
+    restart: on-failure
     volumes:
     - redis-data:/data
     networks:
-      - metric-tracker-network
+      - internal-network
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
     container_name: es01
+    restart: on-failure
     environment:
       - node.name=es01
       - cluster.name=es-docker-cluster
       - discovery.seed_hosts=es02,es03
-      - cluster.initial_master_nodes=es01,es02,es03
+      - cluster.initial_master_nodes=es01
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
@@ -67,54 +65,17 @@ services:
     ports:
       - 9200:9200
     networks:
-      - metric-tracker-network
-  es02:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
-    container_name: es02
-    environment:
-      - node.name=es02
-      - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=es01,es03
-      - cluster.initial_master_nodes=es01,es02,es03
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - es-data-02:/usr/share/elasticsearch/data
-    networks:
-      - metric-tracker-network
-  es03:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
-    container_name: es03
-    environment:
-      - node.name=es03
-      - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=es01,es02
-      - cluster.initial_master_nodes=es01,es02,es03
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - es-data-03:/usr/share/elasticsearch/data
-    networks:
-      - metric-tracker-network
+      - internal-network
 networks:
-  metric-tracker-network:
+  external-network:
     driver: bridge
+  internal-network:
+    driver: bridge
+    internal: true
 volumes:
   redis-data:
     driver: local
   es-data-01:
-    driver: local
-  es-data-02:
-    driver: local
-  es-data-03:
     driver: local
   mongo-data:
     driver: local
