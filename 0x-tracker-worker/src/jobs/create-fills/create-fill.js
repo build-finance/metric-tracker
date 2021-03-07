@@ -4,9 +4,19 @@ const createNewTokens = require('../../tokens/create-new-tokens');
 const getEventData = require('../../events/get-event-data');
 const getUniqTokens = require('./get-uniq-tokens');
 const withTransaction = require('../../util/with-transaction');
+const metric = require('../../attributions/definitions/metric.json')
 
 const createFill = async (event, transaction) => {
   const eventData = getEventData(event);
+
+  if (
+      (transaction.affiliateAddress === undefined ||
+          metric.mappings[0].affiliateAddress.toLowerCase() !== transaction.affiliateAddress.toLowerCase()) &&
+      (eventData.feeRecipient === undefined ||
+          metric.mappings[1].feeRecipientAddress.toLowerCase() !== eventData.feeRecipient.toLowerCase())
+  ) {
+    return;
+  }
 
   const fill = {
     _id: event._id,

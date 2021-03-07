@@ -10,6 +10,7 @@ const processRfqOrderFilledEvent = require('./processors/rfq-order-filled');
 const processSushiswapSwapEvent = require('./processors/sushiswap-swap');
 const processTransformedERC20Event = require('./processors/transformed-erc20');
 const processUniswapV2SwapEvent = require('./processors/uniswap-v2-swap');
+const metric = require('../../attributions/definitions/metric.json')
 
 const createFillsForEvent = async (job, { logger }) => {
   const { eventId } = job.data;
@@ -51,36 +52,83 @@ const createFillsForEvent = async (job, { logger }) => {
     return;
   }
 
+  // TODO skip non metric fills
+
   /*
    * Delegate to the correct processor based on event type or throw
    * an error if the event type is unsupported.
    */
   if (event.type === 'LimitOrderFilled') {
+
+    if (
+        (transaction.affiliateAddress === undefined ||
+            metric.mappings[0].affiliateAddress.toLowerCase() !== transaction.affiliateAddress.toLowerCase()) &&
+        (eventData.feeRecipient === undefined ||
+            metric.mappings[1].feeRecipientAddress.toLowerCase() !== eventData.feeRecipient.toLowerCase())
+    ) {
+      return;
+    }
+
     await processLimitOrderFilledEvent(event, transaction, { logger });
     return;
   }
 
   if (event.type === 'LiquidityProviderSwap') {
+
+    if (transaction.affiliateAddress === undefined ||
+        metric.mappings[0].affiliateAddress.toLowerCase() !== transaction.affiliateAddress.toLowerCase()
+    ) {
+      return;
+    }
+
     await processLiquidityProviderSwapEvent(event, transaction, { logger });
     return;
   }
 
   if (event.type === 'RfqOrderFilled') {
+
+    if (transaction.affiliateAddress === undefined ||
+        metric.mappings[0].affiliateAddress.toLowerCase() !== transaction.affiliateAddress.toLowerCase()
+    ) {
+      return;
+    }
+
     await processRfqOrderFilledEvent(event, transaction, { logger });
     return;
   }
 
   if (event.type === 'SushiswapSwap') {
+
+    if (transaction.affiliateAddress === undefined ||
+        metric.mappings[0].affiliateAddress.toLowerCase() !== transaction.affiliateAddress.toLowerCase()
+    ) {
+      return;
+    }
+
     await processSushiswapSwapEvent(event, transaction, { logger });
     return;
   }
 
   if (event.type === 'TransformedERC20') {
+
+    if (transaction.affiliateAddress === undefined ||
+        metric.mappings[0].affiliateAddress.toLowerCase() !== transaction.affiliateAddress.toLowerCase()
+    ) {
+      return;
+    }
+
     await processTransformedERC20Event(event, transaction, { logger });
     return;
   }
 
   if (event.type === 'UniswapV2Swap') {
+
+    if (transaction.affiliateAddress === undefined ||
+        metric.mappings[0].affiliateAddress.toLowerCase() !== transaction.affiliateAddress.toLowerCase()
+    ) {
+      return;
+    }
+
     await processUniswapV2SwapEvent(event, transaction, { logger });
     return;
   }

@@ -128,18 +128,18 @@ const extractEvents = async () => {
    * Extractors are run sequentially to help avoid issues with rate
    * limiting in the Ethereum RPC provider.
    */
-  await performExtraction(maxBlockNumber, fillExtractorV1);
-  await performExtraction(maxBlockNumber, fillExtractorV2);
+  // await performExtraction(maxBlockNumber, fillExtractorV1);
+  // await performExtraction(maxBlockNumber, fillExtractorV2);
   await performExtraction(maxBlockNumber, fillExtractorV3);
   await performExtraction(maxBlockNumber, transformedERC20Extractor);
-  await performExtraction(maxBlockNumber, rfqOrderFilledExtractor);
+  // await performExtraction(maxBlockNumber, rfqOrderFilledExtractor);
   await performExtraction(maxBlockNumber, liquidityProviderSwapExtractor);
   await performExtraction(maxBlockNumber, limitOrderFilledExtractor);
 
-  const maxBlock = await getBlock(maxBlockNumber);
+  // const maxBlock = await getBlock(maxBlockNumber);
 
-  await performExtraction(maxBlock.timestamp, uniswapV2Extractor);
-  await performExtraction(maxBlock.timestamp, sushiswapSwapExtractor);
+  // await performExtraction(maxBlock.timestamp, uniswapV2Extractor);
+  // await performExtraction(maxBlock.timestamp, sushiswapSwapExtractor);
 
   logger.info('finished event extraction');
 };

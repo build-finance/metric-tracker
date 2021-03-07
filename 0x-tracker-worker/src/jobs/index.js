@@ -13,15 +13,15 @@ const getMissingTokenImages = require('./get-missing-token-images');
 const measureFills = require('./measure-fills');
 
 const jobFns = {
-  aggregateDailyNetworkMetrics,
-  aggregateDailyProtocolMetrics,
-  aggregateDailyTokenMetrics,
-  aggregateDailyTraderMetrics,
+  // aggregateDailyNetworkMetrics,
+  // aggregateDailyProtocolMetrics,
+  // aggregateDailyTokenMetrics,
+  // aggregateDailyTraderMetrics,
   batchScheduleFillCreation,
   batchScheduleTransactionFetch,
   createFills,
   deriveFillPrices,
-  fetchArticles,
+  // fetchArticles,
   getMissingTokenImages,
   measureFills,
 };
