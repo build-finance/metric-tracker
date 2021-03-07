@@ -52,8 +52,6 @@ const createFillsForEvent = async (job, { logger }) => {
     return;
   }
 
-  // TODO skip non metric fills
-
   /*
    * Delegate to the correct processor based on event type or throw
    * an error if the event type is unsupported.
