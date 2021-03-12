@@ -30,7 +30,7 @@ services:
     container_name: mongo
     image: mongo
     volumes:
-    - mongo-data:/data/db
+    - ./mongo-data:/data/db
     healthcheck:
       test: test $$(echo "rs.initiate().ok || rs.status().ok" | mongo --quiet) -eq 1
       interval: 10s
@@ -46,7 +46,7 @@ services:
     volumes:
     - redis-data:/data
     networks:
-      - internal-network
+    - internal-network
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
     container_name: es01
@@ -63,7 +63,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - es-data-01:/usr/share/elasticsearch/data
+      - ./es-data-01:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
     networks:
@@ -74,10 +74,3 @@ networks:
   internal-network:
     driver: bridge
     internal: true
-volumes:
-  redis-data:
-    driver: local
-  es-data-01:
-    driver: local
-  mongo-data:
-    driver: local
