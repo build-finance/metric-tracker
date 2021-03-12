@@ -44,7 +44,7 @@ services:
     image: "redis:alpine"
     restart: on-failure
     volumes:
-    - redis-data:/data
+    - ./redis-data:/data
     networks:
     - internal-network
   es01:
