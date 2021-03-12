@@ -19,6 +19,14 @@ const searchFills = async (params, options) => {
   const fills = await Fill.find({ _id: { $in: fillIds } }).populate([
     { path: 'assets.token', select: 'decimals name symbol type imageUrl' },
     { path: 'attributions.entity', select: 'logoUrl name urlSlug' },
+    {
+      path: 'transaction',
+      populate: [
+        { path: 'toMetadata', select: 'name imageUrl isContract' },
+        { path: 'fromMetadata', select: 'name imageUrl isContract' },
+      ],
+      select: 'from to',
+    },
   ]);
 
   return {

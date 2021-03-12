@@ -8,6 +8,7 @@ const formatFillAttributionType = require('../../../../fills/format-fill-attribu
 const formatFillStatus = require('../../../../fills/format-fill-status');
 const formatTokenAmount = require('../../../../tokens/format-token-amount');
 const getAssetsForFill = require('../../../../fills/get-assets-for-fill');
+const {normalizeMetadata} = require("./transform-fill");
 
 const getRelayer = fill => {
   const relayerAttribution = fill.attributions.find(
@@ -47,21 +48,18 @@ const transformFill = fill => {
       )
       .map(a => ({
         id: a.entity.id,
-        logoUrl: a.entity.logoUrl,
-        name: a.entity.name,
-        type: formatFillAttributionType(a.type),
-        urlSlug: a.entity.urlSlug,
+        type: formatFillAttributionType(a.type)
       })),
     assets,
-    date: fill.date,
-    feeRecipient: fill.feeRecipient,
     id: fill.id,
+    date: fill.date,
     makerAddress: fill.maker || null,
-    protocolFee,
     protocolVersion: fill.protocolVersion,
-    relayer: getRelayer(fill),
-    status: formatFillStatus(fill.status),
-    takerAddress: fill.taker,
+    taker: normalizeMetadata(fill.takerMetadata, fill.taker),
+    transactionFrom: normalizeMetadata(
+        _.get(fill, 'transaction.fromMetadata'),
+        _.get(fill, 'transaction.from'),
+    ),
     value: _.has(conversions, 'amount')
       ? {
           USD: _.get(conversions, 'amount'),

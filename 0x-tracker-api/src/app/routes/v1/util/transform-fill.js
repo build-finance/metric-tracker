@@ -102,4 +102,4 @@ const transformFill = fill => {
   };
 };
 
-module.exports = transformFill;
+module.exports = {transformFill, normalizeMetadata};
