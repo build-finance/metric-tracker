@@ -26,17 +26,17 @@ module.exports = {
   },
   startBlock: {
     fill: {
-      v2: 11244966,
-      v3: 11244966,
+      v2: 11973365,
+      v3: 11973365,
     },
     limitOrderFilled: {
-      v4: 11244966,
+      v4: 11973365,
     },
     liquidityProviderSwap: {
-      v4: 11244966,
+      v4: 11973365,
     },
     logFill: {
-      v1: 11244966,
+      v1: 11973365,
     },
     rfqOrderFilled: {
       v4: 11591021,
@@ -45,7 +45,7 @@ module.exports = {
       v3: 1605168000, // Represents a point in time, not a block number
     },
     transformedErc20: {
-      v3: 11244966,
+      v3: 11973365,
     },
     uniswapV2Swap: {
       v3: 1605168000, // Represents a point in time, not a block number
