@@ -37,3 +37,9 @@ This is done by adding the following into the nginx config under `/etc/nginx/sit
                 proxy_pass  http://127.0.0.1:3001/;
         }
 ```
+
+finally, the http ports need to be opened on the host firewall
+```shell
+ufw allow http
+ufw allow https
+```
