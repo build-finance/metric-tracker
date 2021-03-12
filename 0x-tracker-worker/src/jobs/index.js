@@ -22,7 +22,7 @@ const jobFns = {
   createFills,
   deriveFillPrices,
   // fetchArticles,
-  getMissingTokenImages,
+  // getMissingTokenImages,
   measureFills,
 };
 
