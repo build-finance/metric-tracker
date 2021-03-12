@@ -25,3 +25,15 @@ then run
 ```shell
 docker-compose up -d
 ```
+
+In order to serve the API over https you need to setup a certificate using `certbot`. 
+Follow this [tutorial](https://www.vultr.com/docs/setup-letsencrypt-on-linux) to set it up
+and then redirect the domain url to the local port `3001`.
+
+This is done by adding the following into the nginx config under `/etc/nginx/sites-enabled/default`:
+
+```shell
+        location / {
+                proxy_pass  http://127.0.0.1:3001/;
+        }
+```
