@@ -17,7 +17,7 @@ const getCurrentBlock = require('../ethereum/get-current-block');
 const getNextBlockRange = require('../events/get-next-block-range');
 const withTransaction = require('../util/with-transaction');
 
-const performExtraction = async (maxBlockNumber, extractorConfig) => {
+const performExtraction = async (maxBlockNumber, extractorConfig, isOrderFill) => {
   const {
     eventType,
     fetchLogEntries,
@@ -70,7 +70,11 @@ const performExtraction = async (maxBlockNumber, extractorConfig) => {
         protocolVersion,
         transactionHash: logEntry.transactionHash,
         type: eventType,
-      }));
+      })).filter(event => {
+        return !isOrderFill ||
+            (event.data.args === undefined && event.data.feeRecipient === "0x52427b0035f494a21a0a4a1abe04d679f789c821" ) ||
+            (event.data.args !== undefined && event.data.args.feeRecipientAddress === "0x52427b0035f494a21a0a4a1abe04d679f789c821" )
+      });
 
       await Event.insertMany(events, { session });
     }
@@ -128,18 +132,18 @@ const extractEvents = async () => {
    * Extractors are run sequentially to help avoid issues with rate
    * limiting in the Ethereum RPC provider.
    */
-  await performExtraction(maxBlockNumber, fillExtractorV1);
-  await performExtraction(maxBlockNumber, fillExtractorV2);
-  await performExtraction(maxBlockNumber, fillExtractorV3);
-  await performExtraction(maxBlockNumber, transformedERC20Extractor);
-  await performExtraction(maxBlockNumber, rfqOrderFilledExtractor);
-  await performExtraction(maxBlockNumber, liquidityProviderSwapExtractor);
-  await performExtraction(maxBlockNumber, limitOrderFilledExtractor);
+  // await performExtraction(maxBlockNumber, fillExtractorV1, true);
+  // await performExtraction(maxBlockNumber, fillExtractorV2, true);
+  await performExtraction(maxBlockNumber, fillExtractorV3, true);
+  await performExtraction(maxBlockNumber, transformedERC20Extractor, false);
+  // await performExtraction(maxBlockNumber, rfqOrderFilledExtractor, false);
+  await performExtraction(maxBlockNumber, liquidityProviderSwapExtractor, false);
+  await performExtraction(maxBlockNumber, limitOrderFilledExtractor, true);
 
-  const maxBlock = await getBlock(maxBlockNumber);
+  // const maxBlock = await getBlock(maxBlockNumber);
 
-  await performExtraction(maxBlock.timestamp, uniswapV2Extractor);
-  await performExtraction(maxBlock.timestamp, sushiswapSwapExtractor);
+  // await performExtraction(maxBlock.timestamp, uniswapV2Extractor, false);
+  // await performExtraction(maxBlock.timestamp, sushiswapSwapExtractor, false);
 
   logger.info('finished event extraction');
 };
