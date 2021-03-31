@@ -1,7 +1,7 @@
 const { JOB, QUEUE } = require('../constants');
 const { publishJob } = require('../queues');
 const Event = require('../model/event');
-const getTransactionByHash = require('../transactions/get-transaction-by-hash');
+const transactions = require('../transactions/get-transaction-by-hash');
 
 /**
  * Scheduler which finds unprocessed events and publishes jobs to create their
@@ -31,10 +31,14 @@ const batchScheduleFillCreation = async ({ batchSize }, { logger }) => {
     .limit(batchSize)
     .lean();
 
+  let eventsHashes = []
+  events.map(event => eventsHashes.push(event.transactionHash));
+
+  let fetchedTransactions = await transactions.getTransactionByHashes(eventsHashes);
+
   let eventsWithTransactions = []
   events.map(async (event) => {
-      const transaction = await getTransactionByHash(event.transactionHash);
-      if (transaction !== null) {
+      if (fetchedTransactions.find(hash => hash === event.transactionHash) !== null) {
           eventsWithTransactions.push(event);
       }
   })

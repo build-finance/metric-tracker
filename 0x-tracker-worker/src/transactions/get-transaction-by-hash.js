@@ -6,4 +6,15 @@ const getTransactionByHash = async hash => {
   return tx || null;
 };
 
-module.exports = getTransactionByHash;
+const getTransactionByHashes = async hashes => {
+  const txs = await getModel('Transaction').find({
+    hash: { $in: hashes },
+  });
+
+  return txs || [];
+};
+
+module.exports = {
+  getTransactionByHash: getTransactionByHash,
+  getTransactionByHashes: getTransactionByHashes
+};

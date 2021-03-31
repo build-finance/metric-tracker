@@ -3,7 +3,7 @@ const signale = require('signale');
 
 const { UnsupportedAssetError } = require('../../errors');
 const createFill = require('./create-fill');
-const getTransactionByHash = require('../../transactions/get-transaction-by-hash');
+const transactions = require('../../transactions/get-transaction-by-hash');
 const getUnprocessedEvents = require('./get-unprocessed-events');
 const markEventProcessed = require('./mark-event-processed');
 
@@ -17,7 +17,7 @@ const createFills = async ({ batchSize }) => {
   await bluebird.each(events, async event => {
     logger.info(`creating fill for event ${event.id}`);
 
-    const transaction = await getTransactionByHash(event.transactionHash);
+    const transaction = await transactions.getTransactionByHash(event.transactionHash);
 
     if (transaction === null) {
       logger.warn(`transaction not found: ${event.transactionHash}`);

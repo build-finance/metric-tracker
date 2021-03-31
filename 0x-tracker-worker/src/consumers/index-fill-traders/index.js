@@ -5,7 +5,7 @@ const { publishJob } = require('../../queues');
 const elasticsearch = require('../../util/elasticsearch');
 const getAddressMetadata = require('../../addresses/get-address-metadata');
 const getIndexName = require('../../index/get-index-name');
-const getTransactionByHash = require('../../transactions/get-transaction-by-hash');
+const transactions = require('../../transactions/get-transaction-by-hash');
 
 const indexFillTraders = async (job, { logger }) => {
   const delayJobProcessing = async () => {
@@ -38,7 +38,7 @@ const indexFillTraders = async (job, { logger }) => {
   let transaction;
 
   if (takerMetadata.isContract) {
-    transaction = await getTransactionByHash(transactionHash);
+    transaction = await transactions.getTransactionByHash(transactionHash);
 
     if (transaction === null) {
       logger.warn(`transaction has not been fetched: ${transactionHash}`);

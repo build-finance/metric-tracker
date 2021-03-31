@@ -14,7 +14,7 @@ const createFills = require('../../fills/create-fills');
 const createNewTokens = require('../../tokens/create-new-tokens');
 const Event = require('../../model/event');
 const Fill = require('../../model/fill');
-const getTransactionByHash = require('../../transactions/get-transaction-by-hash');
+const transactions = require('../../transactions/get-transaction-by-hash');
 const withTransaction = require('../../util/with-transaction');
 
 const createUniswapV2SwapEventFill = async (job, { logger }) => {
@@ -43,7 +43,7 @@ const createUniswapV2SwapEventFill = async (job, { logger }) => {
   /**
    * Verify that the associated transaction has been fetched.
    */
-  const transaction = await getTransactionByHash(event.transactionHash);
+  const transaction = await transactions.getTransactionByHash(event.transactionHash);
 
   if (transaction === null) {
     /*

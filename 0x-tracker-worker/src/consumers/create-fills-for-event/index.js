@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { JOB, QUEUE } = require('../../constants');
 const { publishJob } = require('../../queues');
 const Event = require('../../model/event');
-const getTransactionByHash = require('../../transactions/get-transaction-by-hash');
+const transactions = require('../../transactions/get-transaction-by-hash');
 const processLimitOrderFilledEvent = require('./processors/limit-order-filled');
 const processLiquidityProviderSwapEvent = require('./processors/liquidity-provider-swap');
 const processRfqOrderFilledEvent = require('./processors/rfq-order-filled');
@@ -31,7 +31,7 @@ const createFillsForEvent = async (job, { logger }) => {
   /**
    * Verify that the associated transaction has been fetched.
    */
-  const transaction = await getTransactionByHash(event.transactionHash);
+  const transaction = await transactions.getTransactionByHash(event.transactionHash);
 
   if (transaction === null) {
     /*
