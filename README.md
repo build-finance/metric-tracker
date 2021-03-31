@@ -43,3 +43,12 @@ finally, the http ports need to be opened on the host firewall
 ufw allow http
 ufw allow https
 ```
+
+## Troubleshooting 
+
+Sometime some fills maybe missing. A straightforward way to regenerate them is by removing the `fillCreated` tag
+from the events as the following:
+
+`db.events.updateMany({ fillCreated: { $in: [false, null] }, scheduler: { $ne: null } } , [ {$unset: "scheduler" } ] );`
+
+the filter part can be adapted to match a specific transaction using `transactionHash` attribute
