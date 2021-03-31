@@ -55,7 +55,7 @@ const batchScheduleFillCreation = async ({ batchSize }, { logger }) => {
     { $set: { 'scheduler.fillCreationScheduled': true } },
   );
 
-  logger.info(`scheduled creation of fills for ${events.length}  events`);
+  logger.info(`scheduled creation of fills for ${eventsWithTransactions.length}  events`);
 };
 
 module.exports = batchScheduleFillCreation;
