@@ -61,8 +61,8 @@ const createFillsForEvent = async (job, { logger }) => {
     if (
         (transaction.affiliateAddress === undefined ||
             metric.mappings[0].affiliateAddress.toLowerCase() !== transaction.affiliateAddress.toLowerCase()) &&
-        (eventData.feeRecipient === undefined ||
-            metric.mappings[1].feeRecipientAddress.toLowerCase() !== eventData.feeRecipient.toLowerCase())
+        (event.data.feeRecipient === undefined ||
+            metric.mappings[1].feeRecipientAddress.toLowerCase() !== event.data.feeRecipient.toLowerCase())
     ) {
       return;
     }
