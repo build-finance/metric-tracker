@@ -10,20 +10,22 @@ const indexTradedTokens = require('../../index/index-traded-tokens');
 const normalizeSymbol = require('../../tokens/normalize-symbol');
 const withTransaction = require('../../util/with-transaction');
 const { logError } = require('../../util/error-logger');
+const getTokenMetadata = require('../../util/ethereum/get-token-metadata');
 
 const measureFill = async fill => {
   const measurableActor = getMeasurableActor(fill);
 
   let totalValue = 0;
 
-  const tokenPrices = {};
-  const tokenValues = {};
-
   await bluebird.mapSeries(fill.assets, async asset => {
     if (asset.actor === measurableActor) {
       const { tokenAddress } = asset;
-      const tokenSymbol = BASE_TOKENS[asset.tokenAddress];
-      const tokenDecimals = BASE_TOKEN_DECIMALS[asset.tokenAddress];
+      const tokenMetadata = await getTokenMetadata(tokenAddress, {
+        rpcEndpoint: 'https://cloudflare-eth.com',
+      });
+
+      const tokenSymbol = tokenMetadata.symbol;
+      const tokenDecimals = tokenMetadata.decimals;
 
       if (tokenSymbol === undefined) {
         logError(
@@ -56,23 +58,12 @@ const measureFill = async fill => {
 
       const tokenAmountUSD = tokenAmount * tokenPrice;
 
-      tokenPrices[tokenAddress] = tokenPrice;
-
       asset.set('price.USD', tokenPrice);
       asset.set('value.USD', tokenAmountUSD);
 
-      if (tokenValues[tokenAddress] === undefined) {
-        tokenValues[tokenAddress] = {
-          amount: tokenAmount.toNumber(),
-          amountUSD: tokenAmountUSD,
-          priceUSD: tokenPrice,
-        };
-      } else {
-        tokenValues[tokenAddress].amount += tokenAmount.toNumber();
-        tokenValues[tokenAddress].amountUSD += tokenAmountUSD;
+      if (totalValue === 0 && tokenAmountUSD > 0) {
+        totalValue += tokenAmountUSD;
       }
-
-      totalValue += tokenAmountUSD;
     }
   });
 
