@@ -9,6 +9,7 @@ const indexFillTraders = require('../../index/index-fill-traders');
 const indexTradedTokens = require('../../index/index-traded-tokens');
 const normalizeSymbol = require('../../tokens/normalize-symbol');
 const withTransaction = require('../../util/with-transaction');
+const { logError } = require('../../util/error-logger');
 
 const measureFill = async fill => {
   const measurableActor = getMeasurableActor(fill);
@@ -25,15 +26,17 @@ const measureFill = async fill => {
       const tokenDecimals = BASE_TOKEN_DECIMALS[asset.tokenAddress];
 
       if (tokenSymbol === undefined) {
-        throw new Error(
-          `Could not determine symbol for base token: ${tokenAddress}`,
+        logError(
+          `Could not determine symbol for base token: ${tokenAddress}`, {}
         );
+        return;
       }
 
       if (tokenDecimals === undefined) {
-        throw new Error(
+        logError(
           `Could not determine decimals for base token: ${tokenAddress}`,
         );
+        return;
       }
 
       const tokenAmount = formatTokenAmount(asset.amount, tokenDecimals);
@@ -45,9 +48,10 @@ const measureFill = async fill => {
       );
 
       if (tokenPrice === undefined) {
-        throw new Error(
+        logError(
           `Unable to fetch USD price of ${normalizedSymbol} on ${fill.date}`,
         );
+        return;
       }
 
       const tokenAmountUSD = tokenAmount * tokenPrice;
@@ -72,15 +76,18 @@ const measureFill = async fill => {
     }
   });
 
-  fill.set('conversions.USD.amount', totalValue);
-  fill.set('hasValue', true);
+  if (totalValue > 0) {
+    fill.set('conversions.USD.amount', totalValue);
+    fill.set('hasValue', true);
 
-  await withTransaction(async session => {
-    await fill.save({ session });
-    await indexFillValue(fill, totalValue);
-    await indexFillTraders(fill);
-    await indexTradedTokens(fill);
-  });
+    await withTransaction(async session => {
+      await fill.save({ session });
+      await indexFillValue(fill, totalValue);
+      await indexFillTraders(fill);
+      await indexTradedTokens(fill);
+    });
+  }
+
 };
 
 module.exports = measureFill;
