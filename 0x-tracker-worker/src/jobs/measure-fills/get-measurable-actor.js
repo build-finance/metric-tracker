@@ -1,15 +1,9 @@
-const { BASE_TOKENS, FILL_ACTOR } = require('../../constants');
-
-const baseTokenAddresses = Object.keys(BASE_TOKENS);
+const { FILL_ACTOR } = require('../../constants');
 
 const checkIsSideMeasurable = (fill, actor) => {
   const assets = fill.assets.filter(asset => asset.actor === actor);
 
-  if (assets.length === 0) {
-    return false;
-  }
-
-  return assets.every(asset => baseTokenAddresses.includes(asset.tokenAddress));
+  return assets.length !== 0;
 };
 
 const getMeasurableActor = fill => {
