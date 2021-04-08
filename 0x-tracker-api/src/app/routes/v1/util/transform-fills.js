@@ -60,6 +60,7 @@ const transformFill = fill => {
         _.get(fill, 'transaction.fromMetadata'),
         _.get(fill, 'transaction.from'),
     ),
+    transactionHash: fill.transactionHash,
     value: _.has(conversions, 'amount')
       ? {
           USD: _.get(conversions, 'amount'),
