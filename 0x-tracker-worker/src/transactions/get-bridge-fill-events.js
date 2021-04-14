@@ -46,9 +46,9 @@ const bridge2logsInterface = new ethers.utils.Interface([
     inputs: [
       {
         indexed: false,
-        internalType: 'string',
+        internalType: 'bytes32',
         name: 'source',
-        type: 'string',
+        type: 'bytes32',
       },
       {
         indexed: false,
