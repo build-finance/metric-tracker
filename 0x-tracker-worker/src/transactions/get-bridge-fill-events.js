@@ -44,6 +44,9 @@ const getBridgeFillEvents = transactionReceipt => {
   const bridgeFillLogs = transactionReceipt.logs.filter(log =>
     log.topics.includes(
       '0xff3bc5e46464411f331d1b093e1587d2d1aa667f5618f98a95afc4132709d3a9',
+    ) ||
+    log.topics.includes(
+      '0xe59e71a14fe90157eedc866c4f8c767d3943d6b6b2e8cd64dddcc92ab4c55af8'
     ),
   );
 
