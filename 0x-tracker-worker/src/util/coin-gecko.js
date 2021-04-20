@@ -36,7 +36,7 @@ const getPrice = async (address, symbol, date) => {
 
   if (symbol !== 'ETH') {
     const coin = await callApi(`${API_ENDPOINT}/coins/ethereum/contract/${address.toLowerCase()}`)
-    coinId = coin.id
+    coinId = _.get(coin, 'id', null);
   }
 
   const url = `${API_ENDPOINT}/coins/${coinId}/history?date=${formattedDate}&localization=false`;
