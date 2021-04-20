@@ -3,8 +3,8 @@ const _ = require('lodash');
 const { logError } = require('../util/error-logger');
 const getRates = require('./get-rates');
 
-const getConversionRate = async (fromSymbol, toSymbol, date) => {
-  const rates = await getRates(fromSymbol, date);
+const getConversionRate = async (fromAddress, fromSymbol, toSymbol, date) => {
+  const rates = await getRates(fromAddress, fromSymbol, date);
   const conversionRate = _.get(rates, [fromSymbol, toSymbol]);
 
   if (conversionRate === undefined) {

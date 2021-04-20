@@ -37,7 +37,7 @@ const convertRelayerFees = async (job, { logger }) => {
     const decimals = getBaseTokenDecimals(fee.tokenAddress);
     const amount = formatTokenAmount(fee.amount.token, decimals);
     const symbol = getBaseTokenSymbol(fee.tokenAddress);
-    const conversionRate = await getConversionRate(symbol, 'USD', fill.date);
+    const conversionRate = await getConversionRate(fee.tokenAddress, symbol, 'USD', fill.date);
 
     if (conversionRate === undefined) {
       throw new Error(

@@ -25,7 +25,7 @@ const convertProtocolFee = async (job, { logger }) => {
     throw new Error(`Invalid protocolFee: ${protocolFee}`);
   }
 
-  const conversionRate = await getConversionRate('ETH', 'USD', fillDate);
+  const conversionRate = await getConversionRate(undefined, 'ETH', 'USD', fillDate);
 
   if (conversionRate === undefined) {
     throw new Error(`Unable to fetch ETH conversion rate for ${fillDate}`);

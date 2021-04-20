@@ -5,7 +5,7 @@ require('moment-round');
 
 const { getPrice } = require('../util/coin-gecko');
 
-const getRates = async (fromSymbol, date) => {
+const getRates = async (fromAddress, fromSymbol, date) => {
   const cacheKey = `rates.historical.${fromSymbol}`;
   const fromCache = cache.get(cacheKey);
   const roundedDate = (moment().diff(date, 'days') >= 7
@@ -17,7 +17,7 @@ const getRates = async (fromSymbol, date) => {
     return fromCache.rates;
   }
 
-  const rates = await getPrice(fromSymbol, roundedDate);
+  const rates = await getPrice(fromAddress, fromSymbol, roundedDate);
 
   cache.put(cacheKey, {
     date: roundedDate,

@@ -29,19 +29,17 @@ const callApi = async url => {
   return response.data;
 };
 
-const getCoins = async () => {
-  const url = `${API_ENDPOINT}/coins/list`;
-  return callApi(url);
-};
-
-const getPrice = async (symbol, date) => {
-  const coins = await getCoins();
+const getPrice = async (address, symbol, date) => {
   const formattedDate = moment(date).format('DD-MM-YYYY');
-  const coinId = coins.find(
-    c => c.symbol.toLowerCase() === symbol.toLowerCase(),
-  );
 
-  const url = `${API_ENDPOINT}/coins/${coinId.id}/history?date=${formattedDate}&localization=false`;
+  let coinId = 'ethereum'
+
+  if (symbol !== 'ETH') {
+    const coin = await callApi(`${API_ENDPOINT}/coins/ethereum/contract/${address.toLowerCase()}`)
+    coinId = coin.id
+  }
+
+  const url = `${API_ENDPOINT}/coins/${coinId}/history?date=${formattedDate}&localization=false`;
   const responseData = await callApi(url);
   let price = null;
   if (coinId) {

@@ -44,6 +44,7 @@ const measureFill = async fill => {
       const tokenAmount = formatTokenAmount(asset.amount, tokenDecimals);
       const normalizedSymbol = normalizeSymbol(tokenSymbol);
       const tokenPrice = await getConversionRate(
+        tokenAddress,
         normalizedSymbol,
         'USD',
         fill.date,
