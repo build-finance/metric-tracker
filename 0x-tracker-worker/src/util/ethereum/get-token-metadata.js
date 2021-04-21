@@ -1,4 +1,5 @@
 const ethers = require('ethers');
+const config = require('config');
 
 const getTokenMetadata = async address => {
   const abi = [
@@ -7,7 +8,7 @@ const getTokenMetadata = async address => {
     'function decimals() view returns (uint8 decimals)',
   ];
   const provider = new ethers.providers.JsonRpcProvider(
-    'https://cloudflare-eth.com',
+      config.get('web3.endpoint'),
   );
   const contract = new ethers.Contract(address, abi, provider);
   const handleError = () => {
